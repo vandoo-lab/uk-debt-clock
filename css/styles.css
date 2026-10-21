@@ -243,3 +243,6 @@ td.up { color: var(--bad); font-weight: 600; }
 .roadmap-band.band-dark .roadmap li:not(:last-child) a::after { background: var(--page); }
 .conclusion.band-light { background: var(--page); }
 .footer.band-dark { padding-block: 24px 40px; color: var(--muted); }
+
+.about { max-width: 760px; margin-bottom: 36px; }
+.about p { color: var(--ink-2); }
