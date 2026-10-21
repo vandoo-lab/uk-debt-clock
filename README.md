@@ -38,7 +38,7 @@ The GitHub Action in `.github/workflows/refresh-data.yml` runs daily from the 19
 ### What needs a person
 
 - **Each month:** the year-to-date borrowing against the OBR forecast (`YTD_VS_OBR` in `scripts/build_data.py`) comes from the text of the ONS bulletin. Update those numbers after each release.
-- **After each Budget or fiscal event:** point the OBR databank and DWP benefit table URLs in `SOURCES` at the new editions.
+- **After each Budget or fiscal event:** point the OBR databank and DWP benefit table URLs in `SOURCES` at the new editions, delete the old files from `data/raw/`, and run the script on your own computer so it downloads the new ones. Commit the new files: the OBR and DWP websites block GitHub's servers, so the monthly workflow uses the copies saved in the repository.
 - **Each July:** update the PESA spending figures (`PESA_2025_26`) from the new PESA release.
 - **When ONS publishes new population or household estimates:** update `POPULATION_MID_2025` and `HOUSEHOLDS_2025`.
 

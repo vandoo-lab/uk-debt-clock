@@ -1,5 +1,7 @@
-# Downloaded source files: rebuilt by scripts/build_data.py
-data/raw/
+# ONS series are downloaded fresh on every build. The OBR and DWP files in data/raw/
+# are kept in the repository because those sites block GitHub's servers.
+data/raw/ons_*.csv
+data/raw/*.pdf
 
 # Local tooling
 .venv/
