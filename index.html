@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
-<title>UK Debt Clock</title>
-<meta name="description" content="UK national debt in household terms: what it costs, what is driving it, and where official forecasts say it is heading. Built from ONS, OBR, DWP and HM Treasury data.">
+<title>UK Debt Clock – Live UK National Debt, Interest and Forecast</title>
+<meta name="description" content="Live UK national debt clock built from official ONS and OBR data: debt per household, the yearly interest bill, what drives government borrowing and where the debt is heading.">
+<meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="canonical" href="https://vandoo-lab.github.io/uk-debt-clock/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://vandoo-lab.github.io/uk-debt-clock/">
-<meta property="og:title" content="UK Debt Clock">
+<meta property="og:title" content="UK Debt Clock – live UK national debt in household terms">
 <meta property="og:description" content="UK government debt live, in household terms: what it costs, what is driving it and where it is heading. Built from ONS, OBR, DWP and HM Treasury data.">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:image" content="https://vandoo-lab.github.io/uk-debt-clock/img/share-card.png">
@@ -19,9 +20,60 @@
 <meta name="twitter:image" content="https://vandoo-lab.github.io/uk-debt-clock/img/share-card.png">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='20' font-family='Arial' font-weight='700' text-anchor='middle' fill='%23ef6b6b'%3E%C2%A3%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="stylesheet" href="css/styles.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="data/data.js"></script>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebSite",
+   "@id": "https://vandoo-lab.github.io/uk-debt-clock/#website",
+   "name": "UK Debt Clock",
+   "url": "https://vandoo-lab.github.io/uk-debt-clock/",
+   "inLanguage": "en-GB",
+   "description": "Live UK national debt clock built from official ONS and OBR data."
+  },
+  {
+   "@type": "Dataset",
+   "name": "UK government debt, interest and welfare spending (compiled from official statistics)",
+   "description": "Monthly-updated compilation of UK general government gross debt, public sector net debt, debt interest, borrowing and welfare spending by group, with OBR forecasts to 2030-31. Compiled from ONS public sector finances, the OBR public finances databank, DWP benefit expenditure tables and HM Treasury PESA.",
+   "url": "https://vandoo-lab.github.io/uk-debt-clock/",
+   "isAccessibleForFree": true,
+   "spatialCoverage": "United Kingdom",
+   "temporalCoverage": "1990/2031",
+   "keywords": [
+    "UK national debt",
+    "public sector net debt",
+    "government gross debt",
+    "debt interest",
+    "welfare spending",
+    "OBR forecast"
+   ],
+   "creator": {
+    "@type": "Organization",
+    "name": "UK Debt Clock",
+    "url": "https://github.com/vandoo-lab/uk-debt-clock"
+   },
+   "isBasedOn": [
+    "https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/bulletins/publicsectorfinances/latest",
+    "https://obr.uk/data/",
+    "https://www.gov.uk/government/publications/benefit-expenditure-and-caseload-tables-2026",
+    "https://www.gov.uk/government/collections/public-expenditure-statistical-analyses-pesa"
+   ],
+   "distribution": [
+    {
+     "@type": "DataDownload",
+     "encodingFormat": "application/javascript",
+     "contentUrl": "https://vandoo-lab.github.io/uk-debt-clock/data/data.js"
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script defer src="data/data.js"></script>
 </head>
 <body>
 <header class="site-header band-dark">
@@ -42,8 +94,8 @@
   <!-- HERO -->
   <section class="hero band-dark">
     <div class="wrap">
-    <p class="eyebrow" id="clock-eyebrow">UK government gross debt, estimated now</p>
-    <p class="clock" id="clock" aria-live="off">£—</p>
+    <h1 class="eyebrow" id="clock-eyebrow">UK national debt, estimated live</h1>
+    <p class="clock" id="clock" aria-live="off">Over £3 trillion</p>
     <p class="clock-words" id="clock-words" aria-live="off"></p>
     <p class="measure-explain" id="measure-explain"></p>
     <div class="gdp-live">
@@ -79,8 +131,8 @@
       <div class="step-head">
         <p class="kicker"><span class="step-num">1</span> Step 1 of 4 · The debt</p>
         <p class="question">How big is the debt?</p>
-        <h2 id="h-step-debt"></h2>
-      <p class="lede" id="lede-step-debt"></p>
+        <h2 id="h-step-debt">How big is the UK national debt?</h2>
+      <p class="lede" id="lede-step-debt">UK government debt in household terms, and how it was built up over the decades.</p>
       </div>
 
       <div class="card">
@@ -135,8 +187,8 @@
       <div class="step-head">
         <p class="kicker"><span class="step-num">2</span> Step 2 of 4 · The cost</p>
         <p class="question">What does the debt cost us?</p>
-        <h2 id="h-step-cost"></h2>
-      <p class="lede" id="interest-lede"></p>
+        <h2 id="h-step-cost">What the debt costs in interest</h2>
+      <p class="lede" id="interest-lede">The yearly interest bill on the national debt, and what that money could pay for instead.</p>
       </div>
 
       <div class="card">
@@ -168,8 +220,8 @@
       <div class="step-head">
         <p class="kicker"><span class="step-num">3</span> Step 3 of 4 · The drivers</p>
         <p class="question">Why does the government keep borrowing?</p>
-        <h2 id="h-step-drivers"></h2>
-      <p class="lede" id="drivers-lede"></p>
+        <h2 id="h-step-drivers">What is driving government borrowing</h2>
+      <p class="lede" id="drivers-lede">Spending against income, and welfare spending on pensions, health and disability and other working-age benefits.</p>
       </div>
 
       <div class="card">
@@ -233,8 +285,8 @@
       <div class="step-head">
         <p class="kicker"><span class="step-num">4</span> Step 4 of 4 · The outlook</p>
         <p class="question">Where is it heading?</p>
-        <h2 id="h-step-outlook"></h2>
-      <p class="lede" id="fc-lede"></p>
+        <h2 id="h-step-outlook">Where UK debt is heading under current plans</h2>
+      <p class="lede" id="fc-lede">The Office for Budget Responsibility forecast under current plans, compared with the recent trend.</p>
       </div>
 
       <div class="tiles" id="fc-tiles"></div>
@@ -322,7 +374,7 @@
   </section>
 </main>
 <footer class="footer band-dark"><div class="wrap">Independent explainer built on official statistics. Not affiliated with HM Government, ONS, OBR or DWP.</div></footer>
-<script src="js/app.js"></script>
+<script defer src="js/app.js"></script>
 <!-- Cloudflare Web Analytics: anonymous page counts, no cookies -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "879a513995aa4a80b191d66e4f627bee"}'></script>
 </body>

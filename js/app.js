@@ -103,7 +103,7 @@
       obrRise: FIRST_FC.netDebt - LAST_OUTTURN.netDebt, yearEndPct: LAST_OUTTURN.netDebtPct,
     },
     gross: {
-      eyebrow: 'UK general government gross debt, estimated now',
+      eyebrow: 'UK national debt (government gross debt), estimated live',
       explain: 'This is gross debt: everything central and local government owes, with no assets subtracted. It is the measure used for international comparisons by the EU and IMF. Every debt figure on this page uses it. The ONS headline measure, net debt, subtracts cash and other liquid assets and is about 94% of GDP.',
       name: 'gross debt', baseBn: D.latestGross.debtBn, basePct: D.latestGross.debtBn * 1e9 / gdpBase * 100, label: D.latestGross.label,
       obrRise: FIRST_FC.grossDebt - LAST_OUTTURN.grossDebt, yearEndPct: LAST_OUTTURN.grossDebtPct,
