@@ -11,3 +11,6 @@ __pycache__/
 
 # Daily page-view reports (private, not published)
 reports/
+
+# Local cf CLI state
+.cloudflare/
