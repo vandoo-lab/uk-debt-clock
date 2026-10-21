@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>UK Debt Clock</title>
+<meta name="description" content="UK national debt in household terms: what it costs, what is driving it, and where official forecasts say it is heading. Built from ONS, OBR, DWP and HM Treasury data.">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="data/data.js"></script>
+</head>
+<body>
+<header class="site-header band-dark">
+  <div class="wrap header-row">
+    <a class="brand" href="#top">UK Debt Clock</a>
+    <nav aria-label="Steps">
+      <a href="#step-debt">1 Debt</a>
+      <a href="#step-cost">2 Cost</a>
+      <a href="#step-drivers">3 Drivers</a>
+      <a href="#step-outlook">4 Outlook</a>
+      <a href="#conclusion">Conclusion</a>
+      <a href="#sources">Sources</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero band-dark">
+    <div class="wrap">
+    <p class="eyebrow" id="clock-eyebrow">UK government gross debt, estimated now</p>
+    <p class="clock" id="clock" aria-live="off">£—</p>
+    <p class="clock-words" id="clock-words" aria-live="off"></p>
+    <p class="measure-explain" id="measure-explain"></p>
+    <div class="gdp-live">
+      <span class="gdp-label">Debt as a share of GDP, now</span>
+      <span class="gdp-ratio" id="clock-gdp">—</span>
+      <span class="chips">
+        <span class="chip" id="chip-month"></span>
+        <span class="chip" id="chip-year"></span>
+      </span>
+      <span class="gdp-race" id="gdp-race"></span>
+    </div>
+    <p class="hero-note" id="clock-note"></p>
+    <div class="tiles">
+      <div class="tile"><span class="tile-label">Your share, per person</span><span class="tile-value" id="t-person">—</span><span class="tile-sub" id="t-person-sub"></span></div>
+      <div class="tile"><span class="tile-label">Per household</span><span class="tile-value" id="t-household">—</span><span class="tile-sub" id="t-household-sub"></span></div>
+      <div class="tile"><span class="tile-label">Interest per household, each week</span><span class="tile-value" id="t-week">—</span><span class="tile-sub" id="t-week-sub"></span></div>
+      <div class="tile"><span class="tile-label">Debt as share of the economy</span><span class="tile-value" id="t-gdp">—</span><span class="tile-sub" id="t-gdp-sub"></span></div>
+    </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="roadmap-band band-dark" aria-labelledby="roadmap-title">
+    <div class="wrap">
+      <h2 id="roadmap-title" class="roadmap-title">The story in four steps</h2>
+      <ol class="roadmap" id="roadmap"></ol>
+    </div>
+  </section>
+
+  <!-- STEP 1 -->
+  <section id="step-debt" class="section step band-light">
+    <div class="wrap">
+      <div class="step-head">
+        <p class="kicker"><span class="step-num">1</span> Step 1 of 4 · The debt</p>
+        <p class="question">How big is the debt?</p>
+        <h2 id="h-step-debt"></h2>
+      <p class="lede" id="lede-step-debt"></p>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>The debt keeps rising</h3>
+            <p class="card-sub">Gross debt at the end of each financial year. Faded bars are the OBR's forecast.</p>
+          </div>
+          <div class="seg" role="group" aria-label="Units">
+            <button type="button" data-debt-unit="bn" aria-pressed="true">£ billion</button>
+            <button type="button" data-debt-unit="pct" aria-pressed="false">% of GDP</button>
+          </div>
+        </div>
+        <div class="chart-box"><canvas id="c-debt" aria-label="Gross debt by year"></canvas></div>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-debt"></div></details>
+      </div>
+
+      <div class="card">
+        <h3>Where it came from: borrowing by period</h3>
+        <p class="card-sub">Read from top to bottom. Each bar is one period's borrowing (spending minus income) and starts where the previous one ended, so together they add up to today's debt, shown in blue at the bottom. The financial crisis and Covid account for the biggest jumps, but borrowing has stayed high since.</p>
+        <div class="legend eras-legend" id="lg-eras"></div>
+        <div class="chart-box"><canvas id="c-eras" aria-label="Waterfall of borrowing by period, adding up to today's debt"></canvas></div>
+        <p class="fine" id="eras-total"></p>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-eras"></div></details>
+      </div>
+
+      <div class="card household">
+        <h3>Your household's share</h3>
+        <p class="card-sub">Change the number of people in your home to see your share of the debt and of the yearly interest bill.</p>
+        <label class="hh-input">People in your household
+          <input type="number" id="hh-size" min="1" max="12" value="2" inputmode="numeric">
+        </label>
+        <div class="hh-grid">
+          <div><span class="tile-label">Share of the debt</span><span class="tile-value" id="hh-debt">—</span></div>
+          <div><span class="tile-label">Share of interest, per year</span><span class="tile-value" id="hh-int">—</span></div>
+          <div><span class="tile-label">Per month</span><span class="tile-value" id="hh-month">—</span></div>
+        </div>
+        <p class="fine">This is the debt divided by everyone in the UK. Nobody gets a bill for it. It is paid through taxes and through spending that does not happen.</p>
+      </div>
+
+      <aside class="takeaway">
+        <p class="takeaway-label">What this step shows</p>
+        <p id="take-step-debt"></p>
+        <a class="next" href="#step-cost">Next: What does it cost us? <span aria-hidden="true">↓</span></a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section id="step-cost" class="section step band-dark">
+    <div class="wrap">
+      <div class="step-head">
+        <p class="kicker"><span class="step-num">2</span> Step 2 of 4 · The cost</p>
+        <p class="question">What does the debt cost us?</p>
+        <h2 id="h-step-cost"></h2>
+      <p class="lede" id="interest-lede"></p>
+      </div>
+
+      <div class="card">
+        <h3>The interest bill</h3>
+        <p class="card-sub" id="interest-sub"></p>
+        <div class="chart-box"><canvas id="c-interest" aria-label="Central government debt interest by year"></canvas></div>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-interest"></div></details>
+      </div>
+
+      <div class="card">
+        <h3>The opportunity cost: what the interest could pay for instead</h3>
+        <p class="card-sub" id="opp-sub"></p>
+        <div class="chart-box tall"><canvas id="c-opp" aria-label="Debt interest compared with public spending areas"></canvas></div>
+        <div class="callouts" id="opp-callouts"></div>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-opp"></div></details>
+      </div>
+
+      <aside class="takeaway">
+        <p class="takeaway-label">What this step shows</p>
+        <p id="take-step-cost"></p>
+        <a class="next" href="#step-drivers">Next: Why does the government keep borrowing? <span aria-hidden="true">↓</span></a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section id="step-drivers" class="section step band-light">
+    <div class="wrap">
+      <div class="step-head">
+        <p class="kicker"><span class="step-num">3</span> Step 3 of 4 · The drivers</p>
+        <p class="question">Why does the government keep borrowing?</p>
+        <h2 id="h-step-drivers"></h2>
+      <p class="lede" id="drivers-lede"></p>
+      </div>
+
+      <div class="card">
+        <h3>Spending vs income</h3>
+        <p class="card-sub">Total managed expenditure and public sector receipts, as a share of GDP. The gap between the lines is borrowing.</p>
+        <div class="chart-box"><canvas id="c-gap" aria-label="Spending and receipts as a share of GDP"></canvas></div>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-gap"></div></details>
+      </div>
+
+      <div class="tiles three" id="welfare-tiles"></div>
+
+      <div class="card">
+        <div class="card-head">
+          <div>
+            <h3>Welfare spending by who receives it</h3>
+            <p class="card-sub">UK welfare spending. Faded bars are the DWP/OBR forecast.</p>
+          </div>
+          <div class="seg" role="group" aria-label="Prices">
+            <button type="button" data-welfare-unit="nominal" aria-pressed="true">Cash</button>
+            <button type="button" data-welfare-unit="real" aria-pressed="false">Today's prices</button>
+          </div>
+        </div>
+        <div class="legend" id="lg-welfare"></div>
+        <div class="chart-box"><canvas id="c-welfare" aria-label="Welfare spending by group"></canvas></div>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-welfare"></div></details>
+      </div>
+
+      <div class="split">
+        <div class="card">
+          <h3>Pensioner benefits</h3>
+          <p class="card-sub" id="pens-sub"></p>
+          <div class="chart-box mid"><canvas id="c-pens" aria-label="Pensioner benefits breakdown"></canvas></div>
+          <details class="data"><summary>Show the numbers</summary><div id="tbl-pens"></div></details>
+        </div>
+        <div class="card">
+          <h3>Working-age and child benefits</h3>
+          <p class="card-sub" id="wa-sub"></p>
+          <div class="chart-box mid"><canvas id="c-wa" aria-label="Working-age benefits breakdown"></canvas></div>
+          <details class="data"><summary>Show the numbers</summary><div id="tbl-wa"></div></details>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Fastest-growing areas since 2019-20</h3>
+        <p class="card-sub">Spending in 2019-20 and 2026-27, in today's prices (adjusted for inflation using the GDP deflator). Real growth is the rise above inflation.</p>
+        <div id="growth-table"></div>
+        <p class="fine" id="growth-note"></p>
+      </div>
+
+      <aside class="takeaway">
+        <p class="takeaway-label">What this step shows</p>
+        <p id="take-step-drivers"></p>
+        <a class="next" href="#step-outlook">Next: Where is it heading? <span aria-hidden="true">↓</span></a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section id="step-outlook" class="section step band-dark">
+    <div class="wrap">
+      <div class="step-head">
+        <p class="kicker"><span class="step-num">4</span> Step 4 of 4 · The outlook</p>
+        <p class="question">Where is it heading?</p>
+        <h2 id="h-step-outlook"></h2>
+      <p class="lede" id="fc-lede"></p>
+      </div>
+
+      <div class="tiles" id="fc-tiles"></div>
+
+      <div class="card">
+        <h3>Debt: the OBR's forecast and the recent trend</h3>
+        <p class="card-sub">Gross debt as a share of GDP. The blue dashed line is the OBR forecast based on the government's current plans. The orange dashed line is the recent trend: this year's overspend so far, then pensioner, health and disability, and other working-age benefits each growing at their 2019-20 to 2025-26 pace. See below for how it is calculated.</p>
+        <div class="legend" id="lg-fc"></div>
+        <div class="chart-box"><canvas id="c-fc" aria-label="Debt as share of GDP: outturn, OBR forecast and recent trend"></canvas></div>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-fc"></div></details>
+      </div>
+
+      <div class="card" id="risks">
+        <h3>Risks to the forecast: welfare and this year's overspend</h3>
+        <p class="card-sub" id="risk-sub"></p>
+        <div class="tiles risk-tiles" id="risk-tiles"></div>
+        <div class="legend" id="lg-risk"></div>
+        <div class="risk-split">
+          <div>
+            <h4>Pensioner benefits</h4>
+            <div class="chart-box mid"><canvas id="c-risk-pens" aria-label="Pensioner benefits: outturn, OBR forecast and recent trend"></canvas></div>
+          </div>
+          <div>
+            <h4>Health and disability benefits</h4>
+            <div class="chart-box mid"><canvas id="c-risk-hd" aria-label="Health and disability benefits: outturn, OBR forecast and recent trend"></canvas></div>
+          </div>
+          <div>
+            <h4>Other working-age benefits</h4>
+            <div class="chart-box mid"><canvas id="c-risk-wa" aria-label="Other working-age benefits: outturn, OBR forecast and recent trend"></canvas></div>
+          </div>
+        </div>
+        <details class="data"><summary>Show the numbers</summary><div id="tbl-risk"></div></details>
+        <p class="fine" id="risk-method"></p>
+      </div>
+
+      <aside class="takeaway">
+        <p class="takeaway-label">What this step shows</p>
+        <p id="take-step-outlook"></p>
+        <a class="next" href="#conclusion">Next: What it all adds up to <span aria-hidden="true">↓</span></a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section id="conclusion" class="section conclusion band-light">
+    <div class="wrap">
+      <p class="kicker">Conclusion</p>
+      <h2>What it all adds up to</h2>
+      <ol class="chain" id="chain"></ol>
+      <div class="bottom-line">
+        <p class="takeaway-label">The bottom line</p>
+        <p id="bottom-line"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOURCES -->
+  <section id="sources" class="section band-dark">
+    <div class="wrap">
+      <h2>Sources and method</h2>
+      <ul class="sources" id="source-list"></ul>
+      <div class="method">
+        <h3>How the figures are calculated</h3>
+        <ul>
+          <li><strong>Debt</strong> everywhere on the page is general government gross debt (Maastricht definition): ONS series BKPX for the latest month, and the OBR public finances databank for yearly outturn and forecasts. The live share of GDP is measured against the GDP implied by the ONS net debt ratio.</li>
+          <li><strong>The clock</strong> starts from the latest ONS month-end figure. It then adds debt at the recent-trend rate for the current financial year: the OBR's forecast rise in debt, plus this year's overspend against the OBR forecast so far, scaled up to a full year. It is an estimate between monthly releases, not an official figure.</li>
+          <li><strong>The clock shows gross debt</strong>: general government consolidated gross debt on the Maastricht definition (ONS series BKPX). It adds the OBR's forecast rise in gross debt for the current year plus this year's overspend. Its share of GDP is measured against the same GDP as the ONS net debt figure. The per-person, per-household and household calculator figures at the top also use gross debt.</li>
+          <li><strong>Live debt-to-GDP</strong> divides the clock by an estimate of GDP now. That GDP estimate starts from the GDP implied by the latest ONS debt ratio and grows at the OBR's forecast cash GDP growth for the current year. The changes are shown in percentage points of GDP.</li>
+          <li><strong>Recent trend</strong> starts from the OBR forecast. For the current year it adds the overspend in borrowing so far, scaled up to a full year. For later years it adds the cost of three non-overlapping benefit groups (pensioner, health and disability, and other working-age benefits) growing at their 2019-20 to 2025-26 rate above inflation, instead of the OBR's rate. Interest on the extra debt is charged at the effective rate in the OBR forecast. It illustrates one risk. It is not a forecast.</li>
+          <li><strong>Per person</strong> uses the ONS mid-2025 UK population. <strong>Per household</strong> uses the ONS 2025 households estimate.</li>
+          <li><strong>Interest</strong> is central government debt interest, net of the Bank of England's Asset Purchase Facility. This is the OBR's measure. It counts what the government actually pays out, including inflation uplift on index-linked gilts.</li>
+          <li><strong>Welfare</strong> is total UK welfare spending as defined in the OBR's Economic and Fiscal Outlook. That includes DWP benefits, Child Benefit, tax credits and Northern Ireland social security. <strong>Pensioner, working-age and children</strong> splits follow DWP's benefit summary table (Great Britain, DWP benefits).</li>
+          <li><strong>Today's prices</strong> means 2026-27 prices, using the OBR's GDP deflator.</li>
+          <li><strong>Opportunity cost</strong> compares the 2025-26 interest bill with the top-level spending functions in HM Treasury's PESA 2026 (Table 5.2, 2025-26 outturn, UK-wide, all levels of government). Only top-level functions are used, so no area is counted twice. "Welfare and social care" is the Social protection function. "Running government" is General public services minus public debt transactions, which is where debt interest sits.</li>
+        </ul>
+        <p class="fine" id="built-note"></p>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="footer band-dark"><div class="wrap">Independent explainer built on official statistics. Not affiliated with HM Government, ONS, OBR or DWP.</div></footer>
+<script src="js/app.js"></script>
+</body>
+</html>
