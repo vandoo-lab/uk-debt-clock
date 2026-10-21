@@ -1,0 +1,42 @@
+# Rebuilds data/data.js from the official sources and commits it if the figures changed.
+# ONS publishes public sector finances around the 20th of each month, so this checks daily from the 19th to the 28th.
+# GitHub Pages republishes the site automatically after each commit to main.
+name: Refresh data
+
+on:
+  schedule:
+    - cron: "0 9 19-28 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Rebuild data from ONS, OBR, DWP and HM Treasury
+        run: python -I scripts/build_data.py
+
+      - name: Commit if the figures changed
+        run: |
+          # Ignore the "built" date so a run with no new data does not create a commit.
+          if git diff --quiet -I '^ "built"' -- data/data.js; then
+            echo "No new figures."
+            git checkout -- data/data.js
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/data.js
+          git commit -m "Refresh data from official sources"
+          git push
