@@ -8,3 +8,6 @@ data/raw/*.pdf
 __pycache__/
 .claude/
 .DS_Store
+
+# Daily page-view reports (private, not published)
+reports/
