@@ -2,6 +2,8 @@
 
 A single-page explainer of UK public debt, built only from official statistics.
 
+**Live site:** https://vandoo-lab.github.io/uk-debt-clock/
+
 A live clock of UK government gross debt, then four steps that build to a conclusion:
 
 1. **The debt.** How big it is, where it came from, and your household's share.
