@@ -37,6 +37,10 @@ rm -f data/raw/ons_*.csv && .venv/bin/python -I scripts/build_data.py
 
 The GitHub Action in `.github/workflows/refresh-data.yml` runs daily from the 19th to the 28th of each month, around the ONS public sector finances release. It rebuilds `data/data.js` and commits it when the figures change, and GitHub Pages then republishes the site. This keeps the latest net and gross debt, debt-to-GDP and the clock's starting point current. You can also run it by hand from the repository's Actions tab ("Refresh data", then "Run workflow").
 
+### Scheduled monthly update
+
+A scheduled Claude task on the owner's Mac follows [UPDATING.md](UPDATING.md) after each ONS release. It publishes the routine monthly figures, and prepares Budget and other non-routine updates on a branch for review.
+
 ### What needs a person
 
 - **Each month:** the year-to-date borrowing against the OBR forecast (`YTD_VS_OBR` in `scripts/build_data.py`) comes from the text of the ONS bulletin. Update those numbers after each release.
