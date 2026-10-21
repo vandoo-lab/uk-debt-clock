@@ -246,3 +246,9 @@ td.up { color: var(--bad); font-weight: 600; }
 
 .about { max-width: 760px; margin-bottom: 36px; }
 .about p { color: var(--ink-2); }
+
+/* Reserve space for live text in the hero so the tiles don't jump as it fills in */
+.clock-words { min-height: 1.5em; }
+.measure-explain { min-height: 4.5em; }
+.gdp-race { min-height: 2.9em; }
+.hero-note { min-height: 4.6em; }
